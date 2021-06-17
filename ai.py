@@ -25,10 +25,7 @@ def main():
 
     data = load_files(links)
 
-    file_words = {
-        filename: tokenize(data[filename])
-        for filename in data
-    }
+    file_words = {filename: tokenize(data[filename]) for filename in data}
 
     file_idfs = compute_idfs(file_words)
 
@@ -60,7 +57,6 @@ def load_files(links):
     for link in links: 
         raw = requests.get(link)
         
-
         soup = BeautifulSoup(raw.content, "html5lib")
         
         #create valid title 
@@ -69,9 +65,8 @@ def load_files(links):
         validtitle = "".join(x for x in title if x.isalnum())
         
         # Extract the plain text content from paragraphs
-        paras = []
-        for paragraph in soup.find_all('p'):
-            paras.append(str(paragraph.get_text()))
+        
+        paras =  [str(para.get_text()) for para in soup.find_all('p')]
 
         text = [paragraph for paragraph in paras]
         text = ' '.join(text)
